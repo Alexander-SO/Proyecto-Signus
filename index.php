@@ -3,7 +3,6 @@
 echo "comentario";
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,5 +13,7 @@ echo "comentario";
 </head>
 <body>
     
+<!-- <--- comentario -> -->
 </body>
 </html>
+
