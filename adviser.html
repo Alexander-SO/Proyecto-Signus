@@ -1,0 +1,760 @@
+<link rel="stylesheet" href="assets/css/modules/reports.css">
+<div class="uk-grid" data-uk-grid-margin id="datos_reporte">
+    <div class="uk-width-xlarge-3-10 uk-width-large-4-10 uk-width-medium-10-10" style="">
+        <div class="md-card">
+            <div class="md-card-toolbar md-bg-primary">
+                <h3 class="md-card-toolbar-heading-text md-color-white" style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;" id="reportTitle">
+                    Nuevo Reporte
+                </h3>
+                <div class="md-card-toolbar-actions" id="div_report_actions">
+                    <i class="material-icons md-icon md-icon-light" onclick="store.new()" title="Nuevo"
+                       data-uk-tooltip="{pos : 'bottom'}">add</i>
+                    <i class="material-icons md-icon md-icon-light" onclick="store.open()" title="Mis reportes"
+                       data-uk-tooltip="{pos : 'bottom'}">list</i>
+                    <i class="material-icons md-icon md-icon-light" onclick="store.save()" title="Guardar"
+                       data-uk-tooltip="{pos : 'bottom'}">save</i>
+                    <i class="material-icons md-icon md-icon-light" onclick="report.make_pdf()"
+                       data-uk-tooltip="{pos : 'bottom'}">picture_as_pdf</i>
+                </div>
+            </div>
+            <div class="md-card-content" id="divFormularioFiltros" style="height: 550px;  overflow: auto;">
+                <form class="form-stacked" autocomplete="off" id="form_filters_adviser" style="margin:0px">
+                    <div class="uk-grid" data-uk-grid-margin>
+                        <div class="uk-width-1-2">
+                            <label>
+                                <input type="radio" value="1" name="fecha_origen" checked> Fecha registro
+                            </label>
+                        </div>
+                        <div class="uk-width-1-2">
+                            <label>
+                                <input type="radio" value="2" name="fecha_origen"> Fecha modificación
+                            </label>
+                        </div>
+                        <div class="uk-width-1-2">
+                            <label for="select_date_range">Rango de fechas</label>
+                            <select class="md-input" id="select_date_range" name="date_range">
+                                <option value="1">Hoy</option>
+                                <option value="2" selected>Esta semana</option>
+                                <option value="3">Este mes</option>
+                                <option value="4">El origen de los tiempos</option>
+                                <option value="0">Rango personalizado</option>
+                            </select>
+                        </div>
+                        <!--Colocar aca nuevamente-->
+                        <div class="uk-width-1-2 custom_date_row uk-row-first" style="display:none">
+                            <label for="start_date">Fecha inicio</label>
+                            <input class="md-input" type="text" id="start_date" name="start_date"
+                                   data-parsley-date-message="This value should be a valid date"
+                                   data-uk-datepicker="{format:'YYYY-MM-DD'}">
+                        </div>
+                        <div class="uk-width-1-2 custom_date_row" style="display:none">
+                            <label for="end_date">Fecha fin</label>
+                            <input class="md-input" type="text" id="end_date" name="end_date"
+                                   data-parsley-date-message="This value should be a valid date"
+                                   data-uk-datepicker="{format:'YYYY-MM-DD'}">
+                        </div>
+                        <div class="uk-width-small-1-2 parsley-row">
+                            <label for="pipelines">Grupo</label>
+                            <select class="md-input" name="grupo" id="lista_grupos" required></select>
+                        </div>
+                        <div class="uk-width-medium-1-1 remove-top-margin">
+                            <select class="md-input" name="pipelines" id="lista_pipelines" required></select>
+                        </div>
+                        <div class="uk-width-medium-1-1 remove-top-margin">
+                            <select class="md-input label-fixed" id="lista_propietarios" required name="propietarios"></select>
+                        </div>
+                        
+                        <h7 class="md-color-primary clone_section_record_title">Filtrar elementos que coincidan con:</h7>
+
+                        <!--Filtro para records         -->
+                    <div class="uk-form-row form_section_record clone_section_record uk-width-medium-1-1 remove-top-margin" data-section-record="0" id="criterion_section_record">
+                        <div class="uk-grid">
+                            <div class="uk-width-9-10">
+                                <div class="uk-grid">
+                                    <div class="uk-width-1-2">
+                                        <div class="parsley-row">
+                                            <select id="criterion_field_record" name="criterion_field_record"
+                                                    class="md-input campo_criterio_select_record">
+                                                <option class="nooptionRecord" selected value="00" required>Ninguno</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="uk-width-1-2">
+                                        <div class="parsley-row value_column">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                            <div class="uk-width-1-10 uk-text-center">
+                                <div class="uk-vertical-align-middle">
+                                    <a id="add_section_record"><i class="material-icons md-24">&#xE146;</i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="uk-grid uk-grid-small uk-margin-top">
+                        <div class="uk-width-1-2">
+                            <p>
+                                <input type="radio" name="global_operator" id="global_operator_1" value="1"
+                                       data-md-icheck checked/>
+                                <label for="global_operator_1" class="uk-text-small">
+                                    Todas las condiciones
+                                </label>
+                            </p>
+                        </div>
+                        <div class="uk-width-1-2">
+                            <p>
+                                <input type="radio" name="global_operator" id="global_operator_2" value="2"
+                                       data-md-icheck/>
+                                <label for="global_operator_2" class="uk-text-small">
+                                    Alguna de las condiciones
+                                </label>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- final -->
+                        <div class="uk-width-xlarge-1-1 uk-width-large-1-1 uk-width-medium-1-1 remove-top-margin criterion_section_class" id="semaforoDiv">
+                            <h7 id="semaforoDiv" class="md-color-primary">Filtrar por paso:</h7>
+                        </div>
+                        <div class="uk-form-row form_section clone_section uk-width-medium-1-1 remove-top-margin" data-section="0" id="criterion_section">
+                            <div class="uk-grid" id="criterio_busqueda" style="margin-top: 0px;">
+                                <div class="uk-width-9-10">
+                                    
+                                        <div class="parsley-row">
+                                            <select id="criterion_field" name="criterion_field"
+                                                    class="md-input campo_criterio_select">
+                                                <option class="nooption" selected value="-1" required>Todos</option>
+                                            </select>
+                                        </div>
+                                
+                                </div>
+                                <div class="uk-width-1-10 uk-text-center">
+                                    <div class="uk-vertical-align-middle">
+                                        <a id="add_section"><i class="material-icons md-24">&#xE146;</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--
+
+                        <div class="uk-width-xlarge-1-1 uk-width-large-1-1 uk-width-medium-1-1 margint-top-5">
+                            <h7 id="semaforoDiv" class="md-color-primary">Filtrar por razones de rechazo:</h7>
+                        </div>
+                        <div class="uk-width-1-1 margint-top-5" id="cnt_rejections" style="height: 100px; overflow: auto;"></div>                        
+                        
+                         Div para el filtro de clientes
+                        <div class="uk-width-1-1 remove-top-margin">  
+                            <select class="md-input" name="clientes"></select>
+                        </div>
+                        
+
+                        <div class="uk-width-medium-1-2 remove-top-margin">
+                            <label style="cursor: pointer">
+                                <input type="checkbox" name="comentarios" value="1"> Filtrar comentarios
+                            </label>
+                        </div> -->
+                        <div class="uk-width-1-1">
+                            <center>
+                                <button type="button" onclick="$('#form_filters_adviser').parsley().validate();"
+                                        class="md-btn md-btn-flat md-btn-flat-primary md-btn-wave waves-effect waves-button">Generar
+                                </button>
+                            </center>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="uk-width-xlarge-7-10 uk-width-large-6-10 uk-width-medium-10-10 uk-grid" style="height:  624px; margin-left: 0px; padding-left: 0px;">
+        <div class="uk-width-medium-1-4">
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-float-right uk-margin-top uk-margin-small-right">
+                        <span class="countUpMe1Image peity_data">5,3,9,6,5,9,7,3,5,2</span>
+                    </div>
+                    <span class="uk-text-muted uk-text-small uk-text-truncate"
+                          id="leads_asignados">Leads asignados:</span>
+                    <h2 class="uk-margin-remove"><span class="countUpMe1">0<noscript>142384</noscript></span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-medium-1-4">
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-float-right uk-margin-top uk-margin-small-right">
+                        <span class="countUpMe2Image peity_data">5,3,9,6,5,9,7,3,5,2</span>
+                    </div>
+                    <span class="uk-text-muted uk-text-small uk-text-truncate"
+                          id="cotizaciones_realizadas">Cotizaciones realizadas: </span>
+                    <h2 class="uk-margin-remove"><span class="countUpMe2">0<noscript>142384</noscript></span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-medium-1-4">
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-float-right uk-margin-top uk-margin-small-right">
+                        <span class="countUpMe3Image peity_data">5,3,9,6,5,9,7,3,5,2</span>
+                    </div>
+                    <span class="uk-text-muted uk-text-small uk-text-truncate"
+                          id="actividades_realizadas">Actividades realizadas: </span>
+                    <h2 class="uk-margin-remove"><span class="countUpMe3">0<noscript>142384</noscript></span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-medium-1-4">
+            <div class="md-card">
+                <div class="md-card-content">
+                    <div class="uk-float-right uk-margin-top uk-margin-small-right">
+                        <span class="countUpMe4Image peity_data">5,3,9,6,5,9,7,3,5,2</span>
+                    </div>
+                    <span class="uk-text-muted uk-text-small uk-text-truncate"
+                          id="actividades_pendientes">Actividades pendientes:</span>
+                    <h2 class="uk-margin-remove"><span class="countUpMe4">0<noscript>142384</noscript></span></h2>
+                </div>
+            </div>
+        </div>
+        <div class="uk-width-xlarge-1-1 uk-width-large-1-1 uk-width-medium-1-1" style="margin-top: 30px;"> 
+            <div class="md-card">
+                <div class="md-card-toolbar md-bg-primary">
+                    <h3 class="md-card-toolbar-heading-text md-color-white">
+                        Leads por fase de pipeline:
+                    </h3>
+                    
+                </div>
+                <div class="md-card-content" style="overflow: hidden !important; height: 442px;">               
+                    <div id="contenedor_tabla_pipelines" style="overflow-y: auto !important; height: 100%; width: 100%;">
+                        <table class="uk-table unused" id="tbl_pipes">
+                            <thead id="tbl_pipes_head">
+                            <tr>
+                                <th>Colaborador</th>
+                                <th>Paso 1.</th>
+                                <th>Paso 2.</th>
+                                <th>Paso 3.</th>
+                                <th>Paso 4.</th>
+                                <th>Paso 5.</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tbl_pipes_body">
+                            <tr>
+                                <td>------------------------</td>
+                                <td>5</td>
+                                <td>0</td>
+                                <td>7</td>
+                                <td>0</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>0</td>
+                                <td>32</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>12</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>3</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>0</td>
+                                <td>0</td>
+                                <td>11</td>
+                                <td>4</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>9</td>
+                                <td>14</td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>12</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>4</td>
+                                <td>0</td>
+                                <td>12</td>
+                                <td>2</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>5</td>
+                                <td>67</td>
+                                <td>0</td>
+                                <td>12</td>
+                                <td>5</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>12</td>
+                                <td>23</td>
+                                <td>1</td>
+                                <td>0</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>12</td>
+                                <td>3</td>
+                                <td>7</td>
+                                <td>14</td>
+                                <td>1</td>
+                            </tr>
+                            <tr>
+                                <td>------------------------</td>
+                                <td>5</td>
+                                <td>24</td>
+                                <td>7</td>
+                                <td>8</td>
+                                <td>7</td>
+                            </tr>
+    
+                            </tbody>
+                        </table>
+                        <h6 class="legend">
+                            Utilizando una tabla muestra numéricamente la cantidad de leads por paso en el pipeline de cada
+                            colaborador.
+                        </h6>                    
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <div class="uk-width-large-1-1 uk-width-medium-1-1 uk-width-small-1-1">
+        <div class="md-card">
+            <div class="md-card-toolbar md-bg-primary">
+                <div class="md-card-toolbar-actions tbl_comparations_btn">
+                    
+                </div>
+                <h3 class="md-card-toolbar-heading-text md-color-white">
+                    Leads por proyecto:
+                </h3>
+            </div>
+            <div class="md-card-content" id="compare_pipelines_content"  style="height: 450px; padding-bottom: 10px; overflow: auto !important;">
+                <table class="uk-table unused" id="tbl_pipes">
+                    <thead id="tbl_pipes_head">
+                    <tr>
+                        <th colspan="3">Proyecto</th>
+                        <th>Suma por estado</th>
+                    </tr>
+                    <tr>
+                        <th>Paso</th>
+                        <th>Leads</th>
+                        <th>%</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbl_pipes_body">
+                    <tr>
+                        <td>5</td>
+                        <td>0</td>
+                        <td>7</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>0</td>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>11</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>14</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>0</td>
+                        <td>12</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>67</td>
+                        <td>0</td>
+                        <td>12</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>23</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>3</td>
+                        <td>7</td>
+                        <td>14</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>24</td>
+                        <td>7</td>
+                        <td>8</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <h6 class="legend">
+                    Utilizando una tabla muestra numéricamente la cantidad de leads por proyecto.
+                </h6>
+            </div>
+        </div>
+    </div>
+
+    <div class="uk-width-large-1-1 uk-width-medium-1-1 uk-width-small-1-1">
+        <div class="md-card uk-margin-medium-bottom">
+            <div class="md-card-toolbar md-bg-primary">
+                <div class="md-card-toolbar-actions">
+                    
+                </div>
+                <h3 class="md-card-toolbar-heading-text md-color-white">
+                    Actividades por horario:
+                </h3>
+            </div>
+            <div class="md-card-content" id="schedules"  style="height: 450px; padding-bottom: 10px; overflow: auto !important;">
+                <table class="unused" width="100%" height="100%" id="tbl_Qactivities">
+                    <tbody>
+                        <tr>
+                            <td width="20">+1000</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">250</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">200</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">150</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">100</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">50</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">30</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">21</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">20</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">14</td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">12</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">17</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                        </tr>
+                        <tr>
+                            <td width="20">10</td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">7</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">2</td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">2</td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">2</td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">3</td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">3</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">6</td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #f2f2f2; height: 20px; font-weight: bold; color: white" align="center"></td>
+                            <td style="background-color: #525252; height: 20px; font-weight: bold; color: white" align="center">7</td>
+                        </tr>
+                        <tr>
+                            <td width="20"></td>
+                            <td height="20" align="center">04:00</td>
+                            <td height="20" align="center">05:00</td>
+                            <td height="20" align="center">06:00</td>
+                            <td height="20" align="center">07:00</td>
+                            <td height="20" align="center">08:00</td>
+                            <td height="20" align="center">09:00</td>
+                            <td height="20" align="center">10:00</td>
+                            <td height="20" align="center">11:00</td>
+                            <td height="20" align="center">12:00</td>
+                            <td height="20" align="center">13:00</td>
+                            <td height="20" align="center">14:00</td>
+                            <td height="20" align="center">15:00</td>
+                            <td height="20" align="center">16:00</td>
+                            <td height="20" align="center">17:00</td>
+                            <td height="20" align="center">18:00</td>
+                            <td height="20" align="center">19:00</td>
+                            <td height="20" align="center">20:00</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h6 class="legend">
+                    Utilizando una tabla muestra las actividades realizadas por horario de los colaboradores.
+                </h6>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_report">
+    <div class="uk-modal-dialog uk-modal-dialog-lightbox">
+        <button type="button" class="uk-modal-close uk-close uk-close-alt" style="z-index: 1"></button>
+        <div class="md-card">
+            <div class="user_heading" style="height: 70px">
+                <h3 class="uk-modal-title md-color-white"></h3>
+                <div class="md-fab-wrapper">
+                    <a onclick="$('#reportForm').submit()" class="md-fab md-fab-small md-fab-accent md-fab-wave"
+                       data-uk-tooltip="{pos:'bottom'}" data-lang-title="txt_guardar" title="Guardar">
+                        <i class="material-icons md-color-white">&#xE161;</i>
+                    </a>
+                </div>
+            </div>
+            <div class="md-card-content">
+                <form id="reportForm">
+                    <div class="parsley-row">
+                        <label for="reportName">Nombre</label>
+                        <input type="text" class="md-input" id="reportName" required>
+                    </div>
+                    <div class="parsley-row uk-margin-top">
+                        <label for="reportName">Descripción</label>
+                        <textarea type="text" class="md-input" id="reportDescription"></textarea>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_reports">
+    <div class="uk-modal-dialog uk-modal-dialog-lightbox">
+        <button type="button" class="uk-modal-close uk-close uk-close-alt" style="z-index: 1"></button>
+        <div class="md-card">
+            <div class="user_heading" style="height: 70px">
+                <h3 class="uk-modal-title md-color-white">Mis reportes</h3>
+            </div>
+            <div class="md-card-content" style="padding: 5px 15px;">
+                <ul class="md-list md-list-addon md-list-right reports-list">
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_users">
+    <div class="uk-modal-dialog uk-modal-dialog-lightbox">
+        <button type="button" class="uk-modal-close uk-close uk-close-alt" style="z-index: 1"></button>
+        <div class="md-card">
+            <div class="user_heading" style="height: 70px">
+                <h3 class="uk-modal-title md-color-white">Enviar reporte</h3>
+                <div class="md-fab-wrapper">
+                    <a onclick="$('#usersToSendForm').submit()" class="md-fab md-fab-small md-fab-accent md-fab-wave"
+                       data-uk-tooltip="{pos:'bottom'}" title="Enviar">
+                        <i class="material-icons md-color-white">send</i>
+                    </a>
+                </div>
+            </div>
+            <div class="md-card-content">
+                <form id="usersToSendForm">
+                    <div class="parsley-row">
+                        <select name="select_users" id="select_users" multiple required></select>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="uk-modal" id="modal_segment">
+    <div class="uk-modal-dialog uk-modal-dialog-large">
+        <button type="button" class="uk-modal-close uk-close uk-close-alt"
+                style="z-index: 1;top:-10px;right:-10px"></button>
+        <div class="uk-modal-header">
+            <h3 class="uk-modal-title" id="titulo_detalle"></h3>
+        </div>
+
+        <div class="uk-overflow-container" style="width:100%">
+            <table class="uk-table uk-table-striped uk-table-pointer" id="detalle_movimientos" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Registro</th>
+                    <th>Email</th>
+                    <th>Nombre</th>
+                    <th>Comentario</th>
+                    <th>Fecha de movimiento</th>
+                    <th>Colaborador</th>
+                </tr>
+                </thead>
+                <tbody id="tbody_detalle">
+
+                </tbody>
+            </table>
+        </div>
+
+        <div class="uk-grid">
+            <div class="uk-width-medium-1-3">
+                <font style="position: relative;" id="mostrando"></font><br>
+                <font style="position: relative;" id="rango"></font><br>
+            </div>
+            <div class="uk-width-medium-1-3">
+                <div id="contenedor_paginator">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
